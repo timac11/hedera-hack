@@ -7,7 +7,6 @@ export enum FormStatus {
 }
 
 @Entity("forms")
-@Unique(["link"])
 export class Form {
   @PrimaryGeneratedColumn()
   public id: number;
