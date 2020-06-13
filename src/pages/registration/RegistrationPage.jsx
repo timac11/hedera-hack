@@ -75,7 +75,7 @@ export const RegistrationPage = () => {
                      ]}
                      hasFeedback
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Form.Item label="Confirm Password"
                      name="confirmPassword"
@@ -96,7 +96,7 @@ export const RegistrationPage = () => {
                        }),
                      ]}
           >
-            <Input/>
+            <Input.Password/>
           </Form.Item>
           <Form.Item {...tailLayout}
           >
