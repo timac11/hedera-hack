@@ -78,7 +78,7 @@ class MyForms extends React.Component {
                     <Typography.Text>Creation
                       Date: {new Date(form.creationDate).toLocaleString().replace(",", "")}</Typography.Text>
                     <Typography.Text><a href={form.link}>Link to form</a></Typography.Text>
-                    <Typography.Text><a href="https://explorer.kabuto.sh/testnet/id/0.0.69138">Hedera Hashgraph</a></Typography.Text>
+                    <Typography.Text><a href={`https://explorer.kabuto.sh/testnet/id/${form.topicId || "0.0.69138"}`}>Hedera Hashgraph</a></Typography.Text>
                   </div>
                   <div>
                   </div>

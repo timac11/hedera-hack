@@ -29,6 +29,8 @@ export const FormCreation = () => {
       window.hash.triggerCryptoTransfer(data,  async (err, res) => {
         form.resetFields();
         if (!err) {
+          const topicId = await ApiProvider.addFormToBlockchain(values.link);
+          values.topicId = topicId;
           await ApiProvider.postRequest("create-form", values);
           message.info('Form was successfully created');
         } else {
