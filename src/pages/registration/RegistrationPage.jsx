@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Input} from "antd";
+import {Button, Form, Input, message} from "antd";
 import {Typography, Divider} from 'antd';
 import "./RegistrationPage.less";
 import {ApiProvider} from "../../providers/api-provider";
@@ -23,6 +23,7 @@ export const RegistrationPage = () => {
   const onFinish = async values => {
     console.log(values);
     await ApiProvider.postRequest("register", values);
+    message.info('Successful registration!');
     history.push("/login");
   };
 
@@ -37,17 +38,17 @@ export const RegistrationPage = () => {
               {...layout}
               onFinish={onFinish}
         >
-          <Form.Item label="Wallet"
-                     name="wallet"
-                     rules={[
-                       {
-                         required: true,
-                         message: 'Please input your Wallet!',
-                       },
-                     ]}
-          >
-            <Input/>
-          </Form.Item>
+          {/*<Form.Item label="Wallet"*/}
+          {/*           name="wallet"*/}
+          {/*           rules={[*/}
+          {/*             {*/}
+          {/*               required: true,*/}
+          {/*               message: 'Please input your Wallet!',*/}
+          {/*             },*/}
+          {/*           ]}*/}
+          {/*>*/}
+          {/*  <Input/>*/}
+          {/*</Form.Item>*/}
 
           <Form.Item label="E-mail"
                      name="email"

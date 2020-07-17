@@ -7,7 +7,7 @@ export class User {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @Column()
+  @Column({nullable: true})
   public wallet: string;
 
   @Column()

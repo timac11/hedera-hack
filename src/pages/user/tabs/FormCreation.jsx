@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Divider, Form, Input, InputNumber, Typography} from "antd";
+import {Button, Divider, Form, Input, InputNumber, Typography, message} from "antd";
 import {ApiProvider} from "../../../providers/api-provider";
 import * as hash from 'hash-sdk'
 
@@ -11,12 +11,10 @@ const layout = {
   size: "large"
 };
 
-export class FormCreation extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+export const FormCreation = () => {
+  const [form] = Form.useForm();
 
-  onFinish = async values => {
+  const onFinish = async values => {
     console.log(values);
     await ApiProvider.postRequest("create-form", values);
     await hash.setProvider('composer');
@@ -30,18 +28,15 @@ export class FormCreation extends React.Component {
     };
 
     window.hash.triggerCryptoTransfer(data, (err, res) => {
-      console.log("Callback::Error:", err)
-      console.log("Callback::Response:", res)
+      form.resetFields();
+      if (!err) {
+        message.info('Form was successfully created');
+      } else {
+        message.error('Form was not created')
+      }
     });
-
-    // if (result.status === 201) {
-    //   // TODO add notification
-    // } else {
-    //   // TODO add notification
-    // }
   };
 
-  render() {
     return (
       <>
         <Title className="gr-ux-user-page__form-creation-title" level={2}>Form Creation</Title>
@@ -49,7 +44,8 @@ export class FormCreation extends React.Component {
         <Form name="registration"
               className="gr-ux-registration-page__form"
               initialValues={{remember: true}}
-              onFinish={this.onFinish}
+              onFinish={onFinish}
+              form={form}
               {...layout}
         >
           <Form.Item label="Name"
@@ -94,12 +90,6 @@ export class FormCreation extends React.Component {
             </Button>
           </Form.Item>
         </Form>
-        {/*<Button onClick={async () => {*/}
-        {/*  */}
-        {/*}}>*/}
-        {/*  Pay*/}
-        {/*</Button>*/}
       </>
     )
-  }
 }
