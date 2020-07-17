@@ -3,6 +3,7 @@ import {Button, Form, Input} from "antd";
 import {Typography, Divider} from 'antd';
 import "./RegistrationPage.less";
 import {ApiProvider} from "../../providers/api-provider";
+import {useHistory} from "react-router-dom";
 
 const {Title} = Typography;
 
@@ -16,100 +17,96 @@ const tailLayout = {
   wrapperCol: {offset: 8, span: 16},
 };
 
-export class RegistrationPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+export const RegistrationPage = () => {
+  const history = useHistory();
 
-  onFinish = async values => {
+  const onFinish = async values => {
     console.log(values);
     await ApiProvider.postRequest("register", values);
+    history.push("/login");
   };
 
-  render() {
-
-    return (
-      <div className="gr-ux-registration-page__form-wrapper">
-        <div className="gr-ux-registration-page__form-container">
-          <Title style={{marginBottom: 0}} level={2}>Sign Up</Title>
-          <Divider/>
-          <Form name="registration"
-                className="gr-ux-registration-page__form"
-                initialValues={{remember: true}}
-                {...layout}
-                onFinish={this.onFinish}
+  return (
+    <div className="gr-ux-registration-page__form-wrapper">
+      <div className="gr-ux-registration-page__form-container">
+        <Title style={{marginBottom: 0}} level={2}>Sign Up</Title>
+        <Divider/>
+        <Form name="registration"
+              className="gr-ux-registration-page__form"
+              initialValues={{remember: true}}
+              {...layout}
+              onFinish={onFinish}
+        >
+          <Form.Item label="Wallet"
+                     name="wallet"
+                     rules={[
+                       {
+                         required: true,
+                         message: 'Please input your Wallet!',
+                       },
+                     ]}
           >
-            <Form.Item label="Wallet"
-                       name="wallet"
-                       rules={[
-                         {
-                           required: true,
-                           message: 'Please input your Wallet!',
-                         },
-                       ]}
-            >
-              <Input/>
-            </Form.Item>
+            <Input/>
+          </Form.Item>
 
-            <Form.Item label="E-mail"
-                       name="email"
-                       rules={[
-                         {
-                           type: 'email',
-                           message: 'The input is not valid E-mail!',
+          <Form.Item label="E-mail"
+                     name="email"
+                     rules={[
+                       {
+                         type: 'email',
+                         message: 'The input is not valid E-mail!',
+                       },
+                       {
+                         required: true,
+                         message: 'Please input your E-mail!',
+                       },
+                     ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item label="Password"
+                     name="password"
+                     rules={[
+                       {
+                         required: true,
+                         message: 'Please input your Password!',
+                       },
+                     ]}
+                     hasFeedback
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item label="Confirm Password"
+                     name="confirmPassword"
+                     dependencies={['password']}
+                     hasFeedback
+                     rules={[
+                       {
+                         required: true,
+                         message: 'Please confirm your Password!',
+                       },
+                       ({getFieldValue}) => ({
+                         validator(rule, value) {
+                           if (!value || getFieldValue('password') === value) {
+                             return Promise.resolve();
+                           }
+                           return Promise.reject('The two passwords that you entered do not match!');
                          },
-                         {
-                           required: true,
-                           message: 'Please input your E-mail!',
-                         },
-                       ]}
+                       }),
+                     ]}
+          >
+            <Input/>
+          </Form.Item>
+          <Form.Item {...tailLayout}
+          >
+            <Button type="primary"
+                    htmlType="submit"
             >
-              <Input/>
-            </Form.Item>
-            <Form.Item label="Password"
-                       name="password"
-                       rules={[
-                         {
-                           required: true,
-                           message: 'Please input your Password!',
-                         },
-                       ]}
-                       hasFeedback
-            >
-              <Input/>
-            </Form.Item>
-            <Form.Item label="Confirm Password"
-                       name="confirmPassword"
-                       dependencies={['password']}
-                       hasFeedback
-                       rules={[
-                         {
-                           required: true,
-                           message: 'Please confirm your Password!',
-                         },
-                         ({getFieldValue}) => ({
-                           validator(rule, value) {
-                             if (!value || getFieldValue('password') === value) {
-                               return Promise.resolve();
-                             }
-                             return Promise.reject('The two passwords that you entered do not match!');
-                           },
-                         }),
-                       ]}
-            >
-              <Input/>
-            </Form.Item>
-            <Form.Item {...tailLayout}
-            >
-              <Button type="primary"
-                      htmlType="submit"
-              >
-                Submit Registration
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+              Submit Registration
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
-    );
-  }
+    </div>
+  );
 }
