@@ -122,9 +122,16 @@ class MyForms extends React.Component {
                   <div className="ux-my-forms__list-item-buttons">
                     {
                       form.reviewer ?
-                        <Tag color={form.status === "IN_PROGRESS" ? "volcano" : "green"}>
-                          {form.status}
-                        </Tag>:
+                        <>
+                          <Tag color={form.status === "IN_PROGRESS" ? "volcano" : "green"} style={{marginRight: "16px", height: "22px"}}>
+                            {form.status}
+                          </Tag>
+                          <Button type="primary"
+                                  onClick={() => this.setState({modalShareVisible: true, chosenFormId: form.id})}
+                          >
+                            Share
+                          </Button>
+                        </> :
                         <>
                           <Button type="dashed"
                                   style={{marginRight: "16px"}}
