@@ -38,7 +38,7 @@ export const FormCreation = () => {
     } else {
       const args = {
         message: 'Notification',
-        description: 'Please, setup Composer for Hedera Hashgraph and try again',
+        description: 'Please, setup Composer for Hedera Hashgraph extension and try again',
         duration: 5,
       };
       notification.error(args);
