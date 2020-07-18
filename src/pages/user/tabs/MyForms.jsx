@@ -93,7 +93,7 @@ class MyForms extends React.Component {
                onOk={this.shareToUsers}
                onCancel={this.handleShareClose}
         >
-          <p>Chose user for review</p>
+          <p>Chose user to share</p>
           <Select style={{width: 200}}
                   mode="multiple"
                   onChange={(val) => this.setState({chosenUser: val})}>
