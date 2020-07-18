@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, Unique} from "typeorm";
+import {Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "./user.entity";
 
 export enum FormStatus {
@@ -34,4 +34,8 @@ export class Form {
 
   @ManyToOne(() => User, user => user.forms)
   owner: User;
+
+  @ManyToMany(() => User, user => user.shares)
+  @JoinTable()
+  shareToUsers: User[];
 }

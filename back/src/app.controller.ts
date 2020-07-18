@@ -68,4 +68,25 @@ export class AppController {
     console.log(req.user);
     return this.appService.addReviewerByIds(req.body.userId, req.body.formId);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("submit-review")
+  submitReview(@Request() req) {
+    console.log(req.user);
+    return this.appService.acceptReviewForm(req.user.id, req.body.formId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("share-form")
+  shareFormToUser(@Request() req) {
+    console.log(req.user);
+    return this.appService.shareFormToUsers(req.body.userIds, req.body.formId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("shares")
+  getSharesForUser(@Request() req) {
+    console.log(req.user);
+    return this.appService.getSharesForUser(req.user.id);
+  }
 }

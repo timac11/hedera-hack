@@ -8,6 +8,9 @@ import {connect} from "react-redux";
 import {fetchMyForms} from "../../store/actions/myForms";
 import {fetchReviews} from "../../store/actions/reviews";
 import Reviews from "./tabs/Reviews";
+import {fetchShares} from "../../store/actions/shares";
+import Shares from "./tabs/Shares";
+
 const {TabPane} = Tabs;
 
 class UserPage extends React.Component {
@@ -22,6 +25,9 @@ class UserPage extends React.Component {
     }
     if (key === "3") {
       this.props.dispatch(fetchReviews());
+    }
+    if (key === "4") {
+      this.props.dispatch(fetchShares());
     }
   }
 
@@ -45,6 +51,9 @@ class UserPage extends React.Component {
             <TabPane tab="Reviews" key="3">
               <Reviews/>
             </TabPane>
+            <TabPane tab="Shared me" key="4">
+              <Shares/>
+            </TabPane>
           </Tabs>
         </div>
       </div>
@@ -53,8 +62,8 @@ class UserPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { isLogin } = state.user;
-  return { isLogin };
+  const {isLogin} = state.user;
+  return {isLogin};
 }
 
 export default connect(mapStateToProps)(UserPage);

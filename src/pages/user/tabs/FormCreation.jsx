@@ -1,5 +1,5 @@
-import React from "react";
-import {Button, notification, Divider, Form, Input, InputNumber, Typography, message} from "antd";
+import React, {useState} from "react";
+import {Button, notification, Divider, Form, Input, InputNumber, Typography, message, Spin} from "antd";
 import {ApiProvider} from "../../../providers/api-provider";
 import * as hash from 'hash-sdk'
 
@@ -13,9 +13,11 @@ const layout = {
 
 export const FormCreation = () => {
   const [form] = Form.useForm();
+  const [spinHidden, setSpinHidden] = useState(true);
 
   const onFinish = async values => {
     if (window.hash) {
+      setSpinHidden(false);
       await hash.setProvider('composer');
       let data = {
         time: "1",
@@ -26,15 +28,17 @@ export const FormCreation = () => {
         type: 'article'
       };
 
-      window.hash.triggerCryptoTransfer(data,  async (err, res) => {
+      window.hash.triggerCryptoTransfer(data, async (err, res) => {
         form.resetFields();
         if (!err) {
           const topicId = await ApiProvider.addFormToBlockchain(values.link);
           values.topicId = topicId;
           await ApiProvider.postRequest("create-form", values);
-          message.info('Form was successfully created');
+          setSpinHidden(true);
+          message.success('Form was successfully created');
         } else {
-          message.error('Form was not created')
+          message.error('Form was not created');
+          setSpinHidden(true);
         }
       });
     } else {
@@ -47,10 +51,11 @@ export const FormCreation = () => {
     }
   };
 
-    return (
-      <>
-        <Title className="gr-ux-user-page__form-creation-title" level={2}>Form Creation</Title>
-        <Divider/>
+  return (
+    <>
+      <Title className="gr-ux-user-page__form-creation-title" level={2}>Form Creation</Title>
+      <Divider/>
+      <Spin spinning={!spinHidden} tip="Loading...">
         <Form name="registration"
               className="gr-ux-registration-page__form"
               initialValues={{remember: true}}
@@ -100,6 +105,7 @@ export const FormCreation = () => {
             </Button>
           </Form.Item>
         </Form>
-      </>
-    )
+      </Spin>
+    </>
+  )
 };

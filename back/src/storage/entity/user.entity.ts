@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique} from "typeorm";
+import {Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique} from "typeorm";
 import {Form} from "./form.entity";
 
 @Unique(["email"])
@@ -17,8 +17,11 @@ export class User {
   public email: string;
 
   @OneToMany(() => Form, form => form.owner)
-  forms: Form[];
+  public forms: Form[];
 
   @OneToMany(() => Form, form => form.reviewer)
-  formsReviews: Form[];
+  public formsReviews: Form[];
+
+  @ManyToMany(() => Form, form => form.shareToUsers)
+  public shares: Form[];
 }
