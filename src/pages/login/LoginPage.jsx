@@ -79,7 +79,7 @@ const LoginPage = (props) => {
                        ]}
                        hasFeedback
             >
-              <Input/>
+              <Input.Password/>
             </Form.Item>
             <Form.Item {...tailLayout}
             >

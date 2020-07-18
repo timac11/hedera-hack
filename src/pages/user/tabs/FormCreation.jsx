@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Divider, Form, Input, InputNumber, Typography, message} from "antd";
+import {Button, notification, Divider, Form, Input, InputNumber, Typography, message} from "antd";
 import {ApiProvider} from "../../../providers/api-provider";
 import * as hash from 'hash-sdk'
 
@@ -15,26 +15,34 @@ export const FormCreation = () => {
   const [form] = Form.useForm();
 
   const onFinish = async values => {
-    console.log(values);
-    await ApiProvider.postRequest("create-form", values);
-    await hash.setProvider('composer');
-    let data = {
-      time: "1",
-      memo: "Google form timestamping",
-      contentid: 'test1',
-      redirect: '{"nonPayingAccount": "/nomicropaymentreceived.html"}',
-      recipientlist: '[{"tinybars": "50000000", "to":"0.0.43013"}]',
-      type: 'article'
-    };
+    if (window.hash) {
+      await hash.setProvider('composer');
+      let data = {
+        time: "1",
+        memo: "Google form timestamping",
+        contentid: 'test1',
+        redirect: '{"nonPayingAccount": "/nomicropaymentreceived.html"}',
+        recipientlist: '[{"tinybars": "50000000", "to":"0.0.43013"}]',
+        type: 'article'
+      };
 
-    window.hash.triggerCryptoTransfer(data, (err, res) => {
-      form.resetFields();
-      if (!err) {
-        message.info('Form was successfully created');
-      } else {
-        message.error('Form was not created')
-      }
-    });
+      window.hash.triggerCryptoTransfer(data,  async (err, res) => {
+        form.resetFields();
+        if (!err) {
+          await ApiProvider.postRequest("create-form", values);
+          message.info('Form was successfully created');
+        } else {
+          message.error('Form was not created')
+        }
+      });
+    } else {
+      const args = {
+        message: 'Notification',
+        description: 'Please, setup Composer for Hedera Hashgraph and try again',
+        duration: 5,
+      };
+      notification.error(args);
+    }
   };
 
     return (
@@ -92,4 +100,4 @@ export const FormCreation = () => {
         </Form>
       </>
     )
-}
+};
