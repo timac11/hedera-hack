@@ -13,6 +13,11 @@ export class ApiProvider {
     return result.data;
   }
 
+  static async addFormToBlockchain(url) {
+    const result = await axios.default.post(` https://desolate-peak-15444.herokuapp.com/google_form`, {url});
+    return result.data;
+  }
+
   static async postRequest(url, body) {
     const headers = {
       Authorization: `Bearer ${getToken()}`

@@ -26,6 +26,9 @@ export class Form {
   @Column({default: FormStatus.IN_PROGRESS})
   public status: FormStatus;
 
+  @Column({nullable: true})
+  public topicId: string;
+
   @ManyToOne(() => User, user => user.forms, {nullable: true})
   reviewer: User;
 
