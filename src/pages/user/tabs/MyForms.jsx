@@ -82,7 +82,7 @@ class MyForms extends React.Component {
                onOk={this.handleReview}
                onCancel={this.handleCloseReview}
         >
-          <p>Chose user for review</p>
+          <p>Choose user for review</p>
           <Select style={{width: 200}}
                   onChange={(val) => this.setState({chosenUser: val})}>
             {users.map(user => <Option value={user.id}>{user.email}</Option>)}
